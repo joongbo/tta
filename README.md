@@ -1,101 +1,16 @@
 # T-TA
 
+**T-TA**, or **T**ransformer-based **T**ext **A**utoencoder, 
+is a new deep bidirectional language model for unsupervised learning tasks.
+
 This repository is for the paper ["Fast and Accurate Deep Bidirectional 
 Language Representations for Unsupervised Learning"](https://arxiv.org/abs/1810.04805), 
 which describes our method in detail.
 
-## Introduction
+This repository is based on [Google's BERT github]()
 
-**T-TA**, or **T**ransformer-based **T**ext **A**utoencoder, 
-is a new language model for learning bidirectional language representations.
+## Requirements
 
-
-## What is T-TA?
-
-T-TA is a method of training language representations, meaning that we train
-a general-purpose "language understanding" model on a large text corpus (like
-Wikipedia). BERT outperforms previous methods because it is the
-first *unsupervised*, *deeply bidirectional* system for pre-training NLP.
-
-*Unsupervised* means that BERT was trained using only a plain text corpus, which
-is important because an enormous amount of plain text data is publicly available
-on the web in many languages.
-
-Pre-trained representations can also either be *context-free* or *contextual*,
-and contextual representations can further be *unidirectional* or
-*bidirectional*. Context-free models such as
-[word2vec](https://www.tensorflow.org/tutorials/representation/word2vec) or
-[GloVe](https://nlp.stanford.edu/projects/glove/) generate a single "word
-embedding" representation for each word in the vocabulary, so `bank` would have
-the same representation in `bank deposit` and `river bank`. Contextual models
-instead generate a representation of each word that is based on the other words
-in the sentence.
-
-BERT was built upon recent work in pre-training contextual representations —
-including [Semi-supervised Sequence Learning](https://arxiv.org/abs/1511.01432),
-[Generative Pre-Training](https://blog.openai.com/language-unsupervised/),
-[ELMo](https://allennlp.org/elmo), and
-[ULMFit](http://nlp.fast.ai/classification/2018/05/15/introducting-ulmfit.html)
-— but crucially these models are all *unidirectional* or *shallowly
-bidirectional*. This means that each word is only contextualized using the words
-to its left (or right). For example, in the sentence `I made a bank deposit` the
-unidirectional representation of `bank` is only based on `I made a` but not
-`deposit`. Some previous work does combine the representations from separate
-left-context and right-context models, but only in a "shallow" manner. BERT
-represents "bank" using both its left and right context — `I made a ... deposit`
-— starting from the very bottom of a deep neural network, so it is *deeply
-bidirectional*.
-
-BERT uses a simple approach for this: We mask out 15% of the words in the input,
-run the entire sequence through a deep bidirectional
-[Transformer](https://arxiv.org/abs/1706.03762) encoder, and then predict only
-the masked words. For example:
-
-```
-Input: the man went to the [MASK1] . he bought a [MASK2] of milk.
-Labels: [MASK1] = store; [MASK2] = gallon
-```
-
-In order to learn relationships between sentences, we also train on a simple
-task which can be generated from any monolingual corpus: Given two sentences `A`
-and `B`, is `B` the actual next sentence that comes after `A`, or just a random
-sentence from the corpus?
-
-```
-Sentence A: the man went to the store .
-Sentence B: he bought a gallon of milk .
-Label: IsNextSentence
-```
-
-```
-Sentence A: the man went to the store .
-Sentence B: penguins are flightless .
-Label: NotNextSentence
-```
-
-We then train a large model (12-layer to 24-layer Transformer) on a large corpus
-(Wikipedia + [BookCorpus](http://yknzhu.wixsite.com/mbweb)) for a long time (1M
-update steps), and that's BERT.
-
-Using BERT has two stages: *Pre-training* and *fine-tuning*.
-
-**Pre-training** is fairly expensive (four days on 4 to 16 Cloud TPUs), but is a
-one-time procedure for each language (current models are English-only, but
-multilingual models will be released in the near future). We are releasing a
-number of pre-trained models from the paper which were pre-trained at Google.
-Most NLP researchers will never need to pre-train their own model from scratch.
-
-**Fine-tuning** is inexpensive. All of the results in the paper can be
-replicated in at most 1 hour on a single Cloud TPU, or a few hours on a GPU,
-starting from the exact same pre-trained model. SQuAD, for example, can be
-trained in around 30 minutes on a single Cloud TPU to achieve a Dev F1 score of
-91.0%, which is the single system state-of-the-art.
-
-The other important aspect of BERT is that it can be adapted to many types of
-NLP tasks very easily. In the paper, we demonstrate state-of-the-art results on
-sentence-level (e.g., SST-2), sentence-pair-level (e.g., MultiNLI), word-level
-(e.g., NER), and span-level (e.g., SQuAD) tasks with almost no task-specific
-modifications.
 
 ## What has been released in this repository?
 
@@ -792,120 +707,28 @@ extract the text with
 [`WikiExtractor.py`](https://github.com/attardi/wikiextractor), and then apply
 any necessary cleanup to convert it into plain text.
 
-Unfortunately the researchers who collected the
-[BookCorpus](http://yknzhu.wixsite.com/mbweb) no longer have it available for
-public download. The
-[Project Guttenberg Dataset](https://web.eecs.umich.edu/~lahiri/gutenberg_dataset.html)
-is a somewhat smaller (200M word) collection of older books that are public
-domain.
 
-[Common Crawl](http://commoncrawl.org/) is another very large collection of
-text, but you will likely have to do substantial pre-processing and cleanup to
-extract a usable corpus for pre-training BERT.
-
-### Learning a new WordPiece vocabulary
-
-This repository does not include code for *learning* a new WordPiece vocabulary.
-The reason is that the code used in the paper was implemented in C++ with
-dependencies on Google's internal libraries. For English, it is almost always
-better to just start with our vocabulary and pre-trained models. For learning
-vocabularies of other languages, there are a number of open source options
-available. However, keep in mind that these are not compatible with our
-`tokenization.py` library:
-
-*   [Google's SentencePiece library](https://github.com/google/sentencepiece)
-
-*   [tensor2tensor's WordPiece generation script](https://github.com/tensorflow/tensor2tensor/blob/master/tensor2tensor/data_generators/text_encoder_build_subword.py)
-
-*   [Rico Sennrich's Byte Pair Encoding library](https://github.com/rsennrich/subword-nmt)
-
-## Using BERT in Colab
-
-If you want to use BERT with [Colab](https://colab.research.google.com), you can
-get started with the notebook
-"[BERT FineTuning with Cloud TPUs](https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb)".
-**At the time of this writing (October 31st, 2018), Colab users can access a
-Cloud TPU completely for free.** Note: One per user, availability limited,
-requires a Google Cloud Platform account with storage (although storage may be
-purchased with free credit for signing up with GCP), and this capability may not
-longer be available in the future. Click on the BERT Colab that was just linked
-for more information.
-
-## FAQ
-
-#### Is this code compatible with Cloud TPUs? What about GPUs?
-
-Yes, all of the code in this repository works out-of-the-box with CPU, GPU, and
-Cloud TPU. However, GPU training is single-GPU only.
-
-#### I am getting out-of-memory errors, what is wrong?
-
-See the section on [out-of-memory issues](#out-of-memory-issues) for more
-information.
-
-#### Is there a PyTorch version available?
-
-There is no official PyTorch implementation. However, NLP researchers from
-HuggingFace made a
-[PyTorch version of BERT available](https://github.com/huggingface/pytorch-pretrained-BERT)
-which is compatible with our pre-trained checkpoints and is able to reproduce
-our results. We were not involved in the creation or maintenance of the PyTorch
-implementation so please direct any questions towards the authors of that
-repository.
-
-#### Is there a Chainer version available?
-
-There is no official Chainer implementation. However, Sosuke Kobayashi made a
-[Chainer version of BERT available](https://github.com/soskek/bert-chainer)
-which is compatible with our pre-trained checkpoints and is able to reproduce
-our results. We were not involved in the creation or maintenance of the Chainer
-implementation so please direct any questions towards the authors of that
-repository.
-
-#### Will models in other languages be released?
-
-Yes, we plan to release a multi-lingual BERT model in the near future. We cannot
-make promises about exactly which languages will be included, but it will likely
-be a single model which includes *most* of the languages which have a
-significantly-sized Wikipedia.
-
-#### Will models larger than `BERT-Large` be released?
-
-So far we have not attempted to train anything larger than `BERT-Large`. It is
-possible that we will release larger models if we are able to obtain significant
-improvements.
-
-#### What license is this library released under?
+### License
 
 All code *and* models are released under the Apache 2.0 license. See the
 `LICENSE` file for more information.
 
-#### How do I cite BERT?
+### Citation
 
 For now, cite [the Arxiv paper](https://arxiv.org/abs/1810.04805):
 
 ```
-@article{devlin2018bert,
-  title={BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding},
-  author={Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+@article{shin2020fast,
+  title={Fast and Accurate Deep Bidirectional Language Representations for Unsupervised Learning},
+  author={Shin, Joongbo and Lee, Yoonhyung and Yoon, Seunghyun and Jung, Kyomin},
   journal={arXiv preprint arXiv:1810.04805},
-  year={2018}
+  year={2020}
 }
 ```
 
-If we submit the paper to a conference or journal, we will update the BibTeX.
+### Contact information
 
-## Disclaimer
+For help or issues using T-TA, please submit a GitHub issue.
 
-This is not an official Google product.
-
-## Contact information
-
-For help or issues using BERT, please submit a GitHub issue.
-
-For personal communication related to BERT, please contact Jacob Devlin
-(`jacobdevlin@google.com`), Ming-Wei Chang (`mingweichang@google.com`), or
-Kenton Lee (`kentonl@google.com`).
-
-# tta
-Repository for the paper "Fast and Accurate Deep Bidirectional Language Representations for Unsupervised Learning"
+For personal communication related to T-TA, please contact Joongbo Shin 
+(`jbshin@snu.ac.kr`).
