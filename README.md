@@ -2,24 +2,25 @@
 
 ## Introduction
 
-**T-TA**, or **T**ransformer-based **T**ext **A**utoencoder, 
-is a new deep bidirectional language model for unsupervised learning tasks.
-T-TA learns the straightforward learning objectives, *language autoencoding*,
-where the objective is to predict every token in a text sequence at once 
-without merely copying the input to output.
-Rather than fine-tuning the entire pre-trained model,
-T-TA is especially beneficial to obtain contextual embeddings, 
-which are fixed representations of each input token
-generated from the hidden layers of the trained language model.
-
 This repository is for the paper ["Fast and Accurate Deep Bidirectional 
 Language Representations for Unsupervised Learning"](https://arxiv.org/abs/1810.04805), 
 which describes our method in detail.
 
+**T-TA**, or **T**ransformer-based **T**ext **A**utoencoder, 
+is a new deep bidirectional language model for unsupervised learning tasks.
+T-TA learns the straightforward learning objective, *language autoencoding*,
+which is to predict all tokens in a sentence at once using only their context.
+Unlike "masked language model", T-TA has *self-masking* mechanism
+in order to avoid merely copying the input to output.
+Unlike BERT, which is for fine-tuning the entire pre-trained model,
+T-TA is especially beneficial to obtain contextual embeddings, 
+which are fixed representations of each input token
+generated from the hidden layers of the trained language model.
+
 T-TA is a variant of the [BERT](https://arxiv.org/abs/1810.04805) model arhitecture,
 which is mostly a standard [Transformer](https://arxiv.org/abs/1706.03762) architecture.
 Our code is based on [Google's BERT github](https://github.com/google-research/bert),
-which includes methods for building customized vocabulary and preparing the Wikipedia dataset.
+which includes methods for building customized vocabulary, preparing the Wikipedia dataset, etc.
 
 ### This code is tested on:
 
