@@ -16,19 +16,75 @@ This repository is for the paper ["Fast and Accurate Deep Bidirectional
 Language Representations for Unsupervised Learning"](https://arxiv.org/abs/1810.04805), 
 which describes our method in detail.
 
-**This code is tested on Tensorflow 1.12.0**
-
 T-TA is a variant of the [BERT](https://arxiv.org/abs/1810.04805) model arhitecture,
 which is mostly a standard [Transformer](https://arxiv.org/abs/1706.03762) architecture.
 Our code is based on [Google's BERT github](https://github.com/google-research/bert),
 which includes methods for building customized vocabulary and preparing the Wikipedia dataset.
 
+### This code is tested on
+
+```
+Python 3.6.10
+TensorFlow 1.12.0
+```
 
 ## Usage of the T-TA
 
-### Data Prepare
+```shell
+git clone https://github.com/joongbo/tta.git
+cd tta
+```
 
-We release the librispeech text-only data with pre-processing (1.66 GB tar.gz file).
+### Pre-trained Model
+
+We release the pre-trained T-TA model (262.2 MB tar.gz file).
+For now, the model works on `max_seq_length=128`
+
+```shell
+cd model
+wget https://milabfile.snu.ac.kr:16000/tta/data/tta-layer-3-enwiki-lower-sub-32k.tar.gz
+tar -xvzf tta-layer-3-enwiki-lower-sub-32k.tar.gz
+cd ..
+```
+
+### Task: Unsupervised Semantic Textual Similarity on STS Benchmark
+
+We release the code `run_unsupervisedstsb.py` as an example of the usage of T-TA.
+For running this code, you may need several python packages: `numpy`, `scipy`, and `sklearn`
+
+To obtain the STS Benchmark dataset,
+```shell
+cd data
+wget http://ixa2.si.ehu.es/stswiki/images/4/48/Stsbenchmark.tar.gz
+tar -xvzf Stsbenchmark.tar.gz
+cd ..
+```
+Then, `stsbenchmark` folder will be appear in `data/` folder. 
+
+Run:
+```shell
+pythoon run_unsupervisedstsb.py \
+    --config_file models/tta-layer-3-enwiki-lower-sub-32k/config.layer-3.vocab-lower.sub-32k.json \
+    --model_checkpoint models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt-2000000 \
+    --vocab_file models/tta-layer-3-enwiki-lower-sub-32k/vocab-lower.sub-32k.txt
+```
+
+Output:
+```
+STSb-dev 'context': 71.5
+STSb-dev 'embed': 71.5
+STSb-test 'context': 71.5
+STSb-test 'embed': 71.5
+```
+
+### Training: Language AutoEncoding with T-TA
+
+#### Data Prepare
+
+We release the *pre-processed* librispeech text-only data (1.66 GB tar.gz file).
+In this corpus, each line is a single sentence, 
+so we use the sentence unit (rather than the paragraph unit) for a training instance.
+The original data can be found in [LibriSpeech-LM](http://www.openslr.org/11/).
 
 ```shell
 cd data
@@ -36,10 +92,11 @@ wget https://milabfile.snu.ac.kr:16000/tta/data/corpus.librispeech-lower.sub-32k
 tar -xvzf corpus.librispeech-lower.sub-32k.tar.gz
 cd ..
 ```
+Then, `corpus-eval.librispeech-lower.sub-32k.txt` and 
+`corpus-train.librispeech-lower.sub-32k.txt` will be appear in `data/` folder. 
 
-Then, *corpus-eval.librispeech-lower.sub-32k.txt* and 
-*corpus-train.librispeech-lower.sub-32k.txt* will be appear in *data/* folder. 
-Creating tfrecords from librispeech train data will take some time.
+After getting the pre-processed plain text data, we make tfrecords
+(it takes some time for creating tfrecords of train data):
 
 ```shell
 python create_tfrecords.py \
@@ -67,11 +124,6 @@ python run_training.py \
     --learning_rate 0.0001
 ```
 
-### Test on STS Benchmark
-** numpy, scipy, and sklearn packages are needed for running run_test_stsb.py**
-```shell
-pythoon run_test_stsb.py
-```
 
 ### License
 
