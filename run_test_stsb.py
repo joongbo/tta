@@ -1,11 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
 # coding=utf-8
-# Copyright 2018 The Google AI Language Team Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,11 +27,8 @@ import scipy as sp
 import csv
 from sklearn.metrics.pairwise import cosine_similarity
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
 flags = tf.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_string("f", "", "Dummy for notebook")
 
 model_path = "models/tta-layer-3-enwiki-lower-sub-32k/"
 ## Required parameters
@@ -54,7 +44,6 @@ flags.DEFINE_string("vocab_file", model_path+"vocab-lower.sub-32k.txt",
                     "The vocabulary file that the BERT model was trained on.")
 
 flags.DEFINE_integer("max_seq_length", 128, "The length of maximum sequence.")
-
 
 
 class TestingInstance(object):
@@ -105,6 +94,7 @@ tokenizer = tokenization.FullTokenizer(
     do_lower_case=True)
 word_to_id = tokenizer.vocab
 
+# load trained model
 config = modeling.BertConfig.from_json_file(FLAGS.config_file)
 tf.reset_default_graph()
 session_config = tf.ConfigProto()
@@ -204,8 +194,6 @@ print('STSb-dev (context):', sp.stats.pearsonr(labels, similarity_scores_represe
 print('STSb-dev (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
 
 
-
-
 # load STSb-test-set
 labels = []
 refs = []
@@ -276,4 +264,3 @@ for cnt, (ref, hyp) in enumerate(zip(refs, hyps)):
     
 print('STSb-test (context):', sp.stats.pearsonr(labels, similarity_scores_representation)[0])
 print('STSb-test (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
-
