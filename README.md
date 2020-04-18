@@ -1,10 +1,10 @@
 # T-TA
 
-## Introduction
-
 This repository is for the paper ["Fast and Accurate Deep Bidirectional 
 Language Representations for Unsupervised Learning"](https://arxiv.org/abs/1810.04805), 
 which describes our method in detail.
+
+## Introduction
 
 **T-TA**, or **T**ransformer-based **T**ext **A**utoencoder, 
 is a new deep bidirectional language model for unsupervised learning tasks.
@@ -12,22 +12,25 @@ T-TA learns the straightforward learning objective, *language autoencoding*,
 which is to predict all tokens in a sentence at once using only their context.
 Unlike "masked language model", T-TA has *self-masking* mechanism
 in order to avoid merely copying the input to output.
-Unlike BERT, which is for fine-tuning the entire pre-trained model,
+Unlike BERT (which is for fine-tuning the entire pre-trained model),
 T-TA is especially beneficial to obtain contextual embeddings, 
 which are fixed representations of each input token
 generated from the hidden layers of the trained language model.
 
-T-TA is a variant of the [BERT](https://arxiv.org/abs/1810.04805) model arhitecture,
+T-TA model architecture is based on the [BERT](https://arxiv.org/abs/1810.04805) model architecture,
 which is mostly a standard [Transformer](https://arxiv.org/abs/1706.03762) architecture.
 Our code is based on [Google's BERT github](https://github.com/google-research/bert),
 which includes methods for building customized vocabulary, preparing the Wikipedia dataset, etc.
 
-### This code is tested on:
+
+#### This code is tested on the environment:
 
 ```
+Ubuntu 14.04 LTS
 Python 3.6.10
 TensorFlow 1.12.0
 ```
+
 
 ## Usage of the T-TA
 
@@ -35,6 +38,7 @@ TensorFlow 1.12.0
 git clone https://github.com/joongbo/tta.git
 cd tta
 ```
+
 
 ### Pre-trained Model
 
@@ -46,6 +50,7 @@ tar -xvzf tta-layer-3-enwiki-lower-sub-32k.tar.gz
 cd ..
 ```
 For now, the model works on `max_seq_length=128`.
+
 
 ### Task: Unsupervised Semantic Textual Similarity on STS Benchmark
 
