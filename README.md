@@ -21,7 +21,7 @@ which is mostly a standard [Transformer](https://arxiv.org/abs/1706.03762) archi
 Our code is based on [Google's BERT github](https://github.com/google-research/bert),
 which includes methods for building customized vocabulary and preparing the Wikipedia dataset.
 
-### This code is tested on
+### This code is tested on:
 
 ```
 Python 3.6.10
@@ -38,19 +38,18 @@ cd tta
 ### Pre-trained Model
 
 We release the pre-trained T-TA model (262.2 MB tar.gz file).
-For now, the model works on `max_seq_length=128`
-
 ```shell
 cd model
 wget https://milabfile.snu.ac.kr:16000/tta/data/tta-layer-3-enwiki-lower-sub-32k.tar.gz
 tar -xvzf tta-layer-3-enwiki-lower-sub-32k.tar.gz
 cd ..
 ```
+For now, the model works on `max_seq_length=128`.
 
 ### Task: Unsupervised Semantic Textual Similarity on STS Benchmark
 
 We release the code `run_unsupervisedstsb.py` as an example of the usage of T-TA.
-For running this code, you may need several python packages: `numpy`, `scipy`, and `sklearn`
+For running this code, you may need several python packages: `numpy`, `scipy`, and `sklearn`.
 
 To obtain the STS Benchmark dataset,
 ```shell
@@ -70,12 +69,11 @@ pythoon run_unsupervisedstsb.py \
 ```
 
 Output:
-```
-STSb-dev 'context': 71.5
-STSb-dev 'embed': 71.5
-STSb-test 'context': 71.5
-STSb-test 'embed': 71.5
-```
+
+|Split|*r*|
+|---|:---:|
+|STSb-dev|71.88|
+|STSb-dev|71.88|
 
 ### Training: Language AutoEncoding with T-TA
 
