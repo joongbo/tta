@@ -30,17 +30,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 flags = tf.flags
 FLAGS = flags.FLAGS
 
-model_path = "models/tta-layer-3-enwiki-lower-sub-32k/"
 ## Required parameters
-flags.DEFINE_string("config_file", model_path+"config.layer-3.vocab-lower.sub-32k.json",
+flags.DEFINE_string("config_file", "",
                     "The config json file corresponding to the trained BERT model. "
                     "This specifies the model architecture.")
 
-flags.DEFINE_string("model_checkpoint", 
-                    model_path+"model.ckpt-2000000",
+flags.DEFINE_string("model_checkpoint", "",
                     "checkpoint")
 
-flags.DEFINE_string("vocab_file", model_path+"vocab-lower.sub-32k.txt",
+flags.DEFINE_string("vocab_file", "",
                     "The vocabulary file that the BERT model was trained on.")
 
 flags.DEFINE_integer("max_seq_length", 128, "The length of maximum sequence.")
