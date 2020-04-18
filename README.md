@@ -28,12 +28,18 @@ which includes methods for building customized vocabulary and preparing the Wiki
 
 ### Data Prepare
 
-We will **not** be able to release the pre-processed datasets used in the paper.
-For Wikipedia, the recommended pre-processing is to download
-[the latest dump](https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2),
-extract the text with
-[`WikiExtractor.py`](https://github.com/attardi/wikiextractor), and then apply
-any necessary cleanup to convert it into plain text.
+We release the librispeech text-only data with pre-processing (1.66 GB tar.gz file).
+
+```shell
+cd data
+wget https://milabfile.snu.ac.kr:16000/tta/data/corpus.librispeech-lower.sub-32k.tar.gz
+tar -xvzf corpus.librispeech-lower.sub-32k.tar.gz
+cd ..
+```
+
+Then, *corpus-eval.librispeech-lower.sub-32k.txt* and 
+*corpus-train.librispeech-lower.sub-32k.txt* will be appear in *data/* folder. 
+Creating tfrecords from librispeech train data will take some time.
 
 ```shell
 python create_tfrecords.py \
@@ -48,7 +54,9 @@ python create_tfrecords.py \
     --output_file tfrecords/tta-librispeech-lower-sub-32k/train.tfrecord
 ```
 
+
 ### Training
+
 ```shell
 python run_training.py \
     --config_file configs/config.layer-3.vocab-lower.sub-32k.json \
@@ -60,7 +68,7 @@ python run_training.py \
 ```
 
 ### Test on STS Benchmark
-**numpy, scipy, and sklearn packages are needed for running run_test_stsb.py**
+** numpy, scipy, and sklearn packages are needed for running run_test_stsb.py**
 ```shell
 pythoon run_test_stsb.py
 ```
