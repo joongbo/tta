@@ -1,7 +1,7 @@
 # T-TA
 
 This repository is for the paper ["Fast and Accurate Deep Bidirectional 
-Language Representations for Unsupervised Learning"](https://arxiv.org/abs/1810.04805), 
+Language Representations for Unsupervised Learning"](https://arxiv.org/abs/2004.08097), 
 which describes our method in detail.
 
 ## Introduction
@@ -136,13 +136,13 @@ All code *and* models are released under the Apache 2.0 license. See the
 
 ### Citation
 
-For now, cite [the Arxiv paper](https://arxiv.org/abs/1810.04805):
+For now, cite [the Arxiv paper](https://arxiv.org/abs/2004.08097):
 
 ```
 @article{shin2020fast,
   title={Fast and Accurate Deep Bidirectional Language Representations for Unsupervised Learning},
   author={Shin, Joongbo and Lee, Yoonhyung and Yoon, Seunghyun and Jung, Kyomin},
-  journal={arXiv preprint arXiv:1810.04805},
+  journal={arXiv preprint arXiv:2004.08097},
   year={2020}
 }
 ```
