@@ -23,7 +23,7 @@ Our code is based on [Google's BERT github](https://github.com/google-research/b
 which includes methods for building customized vocabulary, preparing the Wikipedia dataset, etc.
 
 
-#### This code is tested on the environment:
+#### This code is tested under:
 
 ```
 Ubuntu 14.04 LTS
@@ -49,6 +49,7 @@ wget https://milabfile.snu.ac.kr:16000/tta/data/tta-layer-3-enwiki-lower-sub-32k
 tar -xvzf tta-layer-3-enwiki-lower-sub-32k.tar.gz
 cd ..
 ```
+Then, `tta-layer-3-enwiki-lower-sub-32k` folder will be appear in `model/` folder. 
 For now, the model works on `max_seq_length=128`.
 
 
@@ -75,15 +76,15 @@ pythoon run_unsupervisedstsb.py \
 ```
 
 Output:
-
 |Split|*r*|
 |---|:---:|
 |STSb-dev|71.88|
-|STSb-dev|71.88|
+|STSb-test|62.27|
+
 
 ### Training: Language AutoEncoding with T-TA
 
-#### Data Prepare
+#### Prepareing Data
 
 We release the *pre-processed* librispeech text-only data (1.66 GB tar.gz file).
 In this corpus, each line is a single sentence, 
@@ -116,8 +117,9 @@ python create_tfrecords.py \
 ```
 
 
-### Training
+### Training T-TA Model
 
+We train the model (random initialization) as follows:
 ```shell
 python run_training.py \
     --config_file configs/config.layer-3.vocab-lower.sub-32k.json \
@@ -128,13 +130,16 @@ python run_training.py \
     --learning_rate 0.0001
 ```
 
+For a better initialization, we can add a line
+`--init_checkpoint "models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt-2000000"`
+(after download pre-trained weights).
 
-### License
+## License
 
 All code *and* models are released under the Apache 2.0 license. See the
 `LICENSE` file for more information.
 
-### Citation
+## Citation
 
 For now, cite [the Arxiv paper](https://arxiv.org/abs/2004.08097):
 
@@ -147,7 +152,7 @@ For now, cite [the Arxiv paper](https://arxiv.org/abs/2004.08097):
 }
 ```
 
-### Contact information
+## Contact information
 
 For help or issues using T-TA, please submit a GitHub issue.
 
