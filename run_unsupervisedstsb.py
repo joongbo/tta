@@ -137,10 +137,10 @@ with open('data/stsbenchmark/sts-dev.csv') as f:
 # calculate correlation
 print('Get scores on STSb-dev. Processing ..')
 similarity_scores_representation = []
-similarity_scores_embeddings = []
+# similarity_scores_embeddings = []
 for cnt, (ref, hyp) in enumerate(zip(refs, hyps)):
     if (cnt+1) % 200 == 0:
-        print(cnt+1)
+        print(cnt+1, end=', ')
     instances = create_testing_instances(ref, tokenizer, 
                                          FLAGS.max_seq_length)
 
@@ -183,13 +183,14 @@ for cnt, (ref, hyp) in enumerate(zip(refs, hyps)):
     score = cosine_similarity([sentence_representation_mean_ref], [sentence_representation_mean_hyp])
     similarity_scores_representation.append(score[0][0])
     
-    sentence_embeddings_mean_ref = np.mean(embeddings_ref[0][1:-1], axis=0)
-    sentence_embeddings_mean_hyp = np.mean(embeddings_hyp[0][1:-1], axis=0)
-    score = cosine_similarity([sentence_embeddings_mean_ref], [sentence_embeddings_mean_hyp])
-    similarity_scores_embeddings.append(score[0][0])
-    
+#     sentence_embeddings_mean_ref = np.mean(embeddings_ref[0][1:-1], axis=0)
+#     sentence_embeddings_mean_hyp = np.mean(embeddings_hyp[0][1:-1], axis=0)
+#     score = cosine_similarity([sentence_embeddings_mean_ref], [sentence_embeddings_mean_hyp])
+#     similarity_scores_embeddings.append(score[0][0])
+
+print('')
 print('STSb-dev (context):', sp.stats.pearsonr(labels, similarity_scores_representation)[0])
-print('STSb-dev (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
+# print('STSb-dev (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
 
 
 # load STSb-test-set
@@ -209,10 +210,10 @@ with open('data/stsbenchmark/sts-test.csv') as f:
 # calculate correlation
 print('Get scores on STSb-test. Processing ..')
 similarity_scores_representation = []
-similarity_scores_embeddings = []
+# similarity_scores_embeddings = []
 for cnt, (ref, hyp) in enumerate(zip(refs, hyps)):
     if (cnt+1) % 200 == 0:
-        print(cnt+1)
+        print(cnt+1, end=', ')
     instances = create_testing_instances(ref, tokenizer, 
                                          FLAGS.max_seq_length)
 
@@ -255,10 +256,11 @@ for cnt, (ref, hyp) in enumerate(zip(refs, hyps)):
     score = cosine_similarity([sentence_representation_mean_ref], [sentence_representation_mean_hyp])
     similarity_scores_representation.append(score[0][0])
     
-    sentence_embeddings_mean_ref = np.mean(embeddings_ref[0][1:-1], axis=0)
-    sentence_embeddings_mean_hyp = np.mean(embeddings_hyp[0][1:-1], axis=0)
-    score = cosine_similarity([sentence_embeddings_mean_ref], [sentence_embeddings_mean_hyp])
-    similarity_scores_embeddings.append(score[0][0])
-    
+#     sentence_embeddings_mean_ref = np.mean(embeddings_ref[0][1:-1], axis=0)
+#     sentence_embeddings_mean_hyp = np.mean(embeddings_hyp[0][1:-1], axis=0)
+#     score = cosine_similarity([sentence_embeddings_mean_ref], [sentence_embeddings_mean_hyp])
+#     similarity_scores_embeddings.append(score[0][0])
+
+print('')
 print('STSb-test (context):', sp.stats.pearsonr(labels, similarity_scores_representation)[0])
-print('STSb-test (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
+# print('STSb-test (embed)  :', sp.stats.pearsonr(labels, similarity_scores_embeddings)[0])
