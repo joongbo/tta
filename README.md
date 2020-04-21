@@ -26,7 +26,7 @@ which includes methods for building customized vocabulary, preparing the Wikiped
 #### This code is tested under:
 
 ```
-Ubuntu 14.04 LTS
+Ubuntu 16.04 LTS
 Python 3.6.10
 TensorFlow 1.12.0
 ```
