@@ -45,7 +45,7 @@ cd tta
 We release the pre-trained T-TA model (262.2 MB tar.gz file).
 ```shell
 cd models
-wget https://milabfile.snu.ac.kr:16000/tta/data/tta-layer-3-enwiki-lower-sub-32k.tar.gz
+wget https://milabfile.snu.ac.kr:16000/tta/tta-layer-3-enwiki-lower-sub-32k.tar.gz
 tar -xvzf tta-layer-3-enwiki-lower-sub-32k.tar.gz
 cd ..
 ```
@@ -93,7 +93,7 @@ The original data can be found in [LibriSpeech-LM](http://www.openslr.org/11/).
 
 ```shell
 cd data
-wget https://milabfile.snu.ac.kr:16000/tta/data/corpus.librispeech-lower.sub-32k.tar.gz
+wget https://milabfile.snu.ac.kr:16000/tta/corpus.librispeech-lower.sub-32k.tar.gz
 tar -xvzf corpus.librispeech-lower.sub-32k.tar.gz
 cd ..
 ```
