@@ -104,6 +104,8 @@ After getting the pre-processed plain text data, we make tfrecords
 (it takes some time for creating tfrecords of train data):
 
 ```shell
+rm tfrecords/tta-librispeech-lower-sub-32k # delete dummy (symbolic link)
+
 python create_tfrecords.py \
     --input_file data/corpus-eval.librispeech-lower.sub-32k.txt \
     --vocab_file configs/vocab-lower.sub-32k.txt \
