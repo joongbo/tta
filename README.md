@@ -69,7 +69,7 @@ Then, `stsbenchmark` folder will be appear in `data/` folder.
 
 Run:
 ```shell
-pythoon run_unsupervisedstsb.py \
+python run_unsupervisedstsb.py \
     --config_file models/tta-layer-3-enwiki-lower-sub-32k/config.layer-3.vocab-lower.sub-32k.json \
     --model_checkpoint models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt-2000000 \
     --vocab_file models/tta-layer-3-enwiki-lower-sub-32k/vocab-lower.sub-32k.txt
