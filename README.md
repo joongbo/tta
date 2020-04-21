@@ -71,7 +71,7 @@ Run:
 ```shell
 python run_unsupervisedstsb.py \
     --config_file models/tta-layer-3-enwiki-lower-sub-32k/config.layer-3.vocab-lower.sub-32k.json \
-    --model_checkpoint models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt-2000000 \
+    --model_checkpoint models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt \
     --vocab_file models/tta-layer-3-enwiki-lower-sub-32k/vocab-lower.sub-32k.txt
 ```
 
@@ -131,7 +131,7 @@ python run_training.py \
 ```
 
 For a better initialization, we can add a line
-`--init_checkpoint "models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt-2000000"`
+`--init_checkpoint "models/tta-layer-3-enwiki-lower-sub-32k/model.ckpt"`
 (after download pre-trained weights).
 
 ## License
