@@ -129,6 +129,7 @@ python run_training.py \
     --eval_input_file "tfrecords/tta-librispeech-lower-sub-32k/eval-*" \
     --output_dir "models/tta-layer-3-librispeech-lower-sub-32k" \
     --num_train_steps 2000000 \
+    --num_warmup_steps 50000 \
     --learning_rate 0.0001
 ```
 
