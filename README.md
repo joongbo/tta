@@ -1,7 +1,7 @@
 # T-TA
 
 This repository is for the paper ["Fast and Accurate Deep Bidirectional 
-Language Representations for Unsupervised Learning"](https://arxiv.org/abs/2004.08097), 
+Language Representations for Unsupervised Learning"](https://www.aclweb.org/anthology/2020.acl-main.76/), 
 which describes our method in detail.
 
 ## Introduction
