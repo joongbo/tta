@@ -206,7 +206,7 @@ class BertModel(object):
         # for the attention scores.
         attention_mask = create_attention_mask_from_input_mask(
             input_ids, input_mask)
-        attention_mask = 1.0 - tf.linalg.band_part(attention_mask, 0, 0) ## for self-blind
+        attention_mask = attention_mask - tf.linalg.band_part(attention_mask, 0, 0) ## for self-blind
         
         # Run the stacked transformer.
         # `sequence_output` shape = [batch_size, seq_length, hidden_size].
